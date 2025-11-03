@@ -8,6 +8,7 @@ project(duneanauserexample VERSION 0.0.1 LANGUAGES CXX)
 FetchContent_Declare(
   duneanasel
   GIT_REPOSITORY https://github.com/luketpickering/duneanasel.git
+  GIT_TAG main
 )
 
 FetchContent_MakeAvailable(duneanasel)

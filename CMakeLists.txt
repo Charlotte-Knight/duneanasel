@@ -99,7 +99,7 @@ add_library(duneanasel_all INTERFACE)
 
 target_link_libraries(duneanasel_all INTERFACE duneanaobj::all)
 target_include_directories(duneanasel_all INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/..>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/duneanasel>
   $<INSTALL_INTERFACE:include>)
 
 add_library(duneanasel::all ALIAS duneanasel_all)
