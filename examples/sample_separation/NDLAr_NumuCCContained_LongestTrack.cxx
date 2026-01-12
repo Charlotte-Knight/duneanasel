@@ -4,6 +4,7 @@
 #include "duneanaobj/StandardRecord/StandardRecord.h"
 
 #include "TChain.h"
+#include "TH1D.h"
 
 #include <memory>
 
@@ -18,19 +19,22 @@ int main(int argc, char const *argv[]) {
 
   pch.GetEntry(0);
 
-  // open a second copy of the file to copy full records out of
-  TChain ch("cafmaker/cafTree");
-  ch.Add(argv[1]);
-
-  caf::StandardRecord *SR = nullptr;
-  ch.SetBranchAddress("rec", &SR);
-
-  std::map<sel::beam::Sample, int> selections;
+  TFile hout("mutracklen.root", "RECREATE");
+  TH1D mutracklen("mutracklen", ";Track Length [cm]; Count", 100, 0, 500);
   for (Long64_t i = 0; i < ents; ++i) {
     pch.GetEntry(i);
 
     for (auto const &nd_int : srp.common.ixn.pandora) {
-      selections[sel::beam::ndlar::numode::ApplySelection(nd_int)]++;
+      if (sel::beam::ndlar::numode::ApplySelection(nd_int) !=
+          sel::beam::kNuMuCCLikeContained) {
+        continue;
+      }
+
+      mutracklen.Fill(sel::beam::ndlar::ParticleLength(
+          *sel::beam::ndlar::GetLongestParticle(nd_int)));
     }
   }
+
+  hout.Write();
+  hout.Close();
 }
