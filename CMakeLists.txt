@@ -34,10 +34,14 @@ find_package(ROOT 6 REQUIRED)
 
 find_package(duneanaobj QUIET)
 
-if(duneanaobj_FOUND AND TARGET duneanaobj::StandardRecordProxy)
+if(duneanaobj_FOUND AND TARGET duneanaobj::StandardRecordProxy) # use UPS by default
   message(STATUS "Found duneanaobj in ${duneanaobj_SOURCE}.")
   add_library(duneanaobj_all INTERFACE)
-  target_link_libraries(duneanaobj_all PUBLIC duneanaobj::StandardRecordProxy duneanaobj::StandardRecordFlat)
+  target_link_libraries(duneanaobj_all INTERFACE duneanaobj::StandardRecordProxy duneanaobj::StandardRecordFlat)
+  if(NOT DEFINED ENV{SRPROXY_INC})
+    message(FATAL_ERROR "Attempting to use UPS distribution of duneanaobj but SRPROXY_INC is not defined in the environment.")
+  endif()
+  target_include_directories(duneanaobj_all INTERFACE $ENV{SRPROXY_INC})
   add_library(duneanaobj::all ALIAS duneanaobj_all)
 elseif(duneanasel_USE_SRProxy)
   if(NOT duneanaobj_FOUND)
