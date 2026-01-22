@@ -33,7 +33,7 @@ option(duneanasel_SRProxy_PYTHON_ENABLED "Whether to build python bindings for p
 
 find_package(ROOT 6 REQUIRED)
 
-if(duneanasel_USE_UPS_duneanaobj) # use UPS by default
+if(duneanasel_USE_UPS_duneanaobj)
   find_package(duneanaobj REQUIRED)
 
   if(NOT TARGET duneanaobj::StandardRecordProxy)
