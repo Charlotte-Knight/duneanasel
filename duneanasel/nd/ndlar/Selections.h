@@ -8,9 +8,9 @@
 namespace sel {
 namespace beam {
 
-enum Sample { kRejected = 0, kNuMuCCLikeContained, kNuECCLikeContained };
-
 namespace ndlar {
+
+enum Sample { kRejected = 0, kNuMuCCLikeContained, kNuECCLikeContained };
 
 template <typename T, typename C = Proxyable_t<caf::SRInteraction, T>>
 inline bool InFV(T const &nd_int) {
@@ -82,18 +82,18 @@ inline bool NuECCLikeContained(T const &nd_int) {
 }
 
 template <typename T, typename C = Proxyable_t<caf::SRInteraction, T>>
-inline sel::beam::Sample ApplySelection(T const &fd_int) {
+inline sel::beam::ndlar::Sample ApplySelection(T const &fd_int) {
 
   if (!sel::beam::ndlar::InFV(fd_int)) {
-    return sel::beam::kRejected;
+    return sel::beam::ndlar::kRejected;
   }
 
   if (sel::beam::ndlar::numode::NuMuCCLikeContained(fd_int)) {
-    return sel::beam::kNuMuCCLikeContained;
+    return sel::beam::ndlar::kNuMuCCLikeContained;
   } else if (sel::beam::ndlar::numode::NuECCLikeContained(fd_int)) {
-    return sel::beam::kNuECCLikeContained;
+    return sel::beam::ndlar::kNuECCLikeContained;
   }
-  return sel::beam::kRejected;
+  return sel::beam::ndlar::kRejected;
 }
 
 } // namespace numode
